@@ -2,16 +2,27 @@ import axios from "axios";
 
 const baseUrl = "https://todo-api-466e.onrender.com";
 
+const api = axios.create({
+  baseURL: baseUrl,
+  headers: {
+    "Cache-Control": "no-cache",
+    "Content-Type": "application/json",
+  },
+});
+
 const getAllToDo = (setToDo) => {
-  axios.get(baseUrl).then(({ data }) => {
-    console.log("data ---> ", data);
-    setToDo(data);
-  });
+  api
+    .get("/")
+    .then(({ data }) => {
+      console.log("data ---> ", data);
+      setToDo(data);
+    })
+    .catch((err) => console.log(err));
 };
 
 const addToDo = (text, setText, setToDo) => {
-  axios
-    .post(`${baseUrl}/save`, { text })
+  api
+    .post("/save", { text })
     .then((data) => {
       console.log(data);
       setText("");
@@ -21,8 +32,8 @@ const addToDo = (text, setText, setToDo) => {
 };
 
 const updateToDo = (toDoId, text, setToDo, setText, setIsUpdating) => {
-  axios
-    .post(`${baseUrl}/update`, { _id: toDoId, text })
+  api
+    .post("/update", { _id: toDoId, text })
     .then((data) => {
       setText("");
       setIsUpdating(false);
@@ -32,8 +43,8 @@ const updateToDo = (toDoId, text, setToDo, setText, setIsUpdating) => {
 };
 
 const deleteToDo = (_id, setToDo) => {
-  axios
-    .post(`${baseUrl}/delete`, { _id })
+  api
+    .post("/delete", { _id })
     .then((data) => {
       console.log(data);
       getAllToDo(setToDo);

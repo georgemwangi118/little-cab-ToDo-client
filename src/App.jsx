@@ -31,8 +31,8 @@ function App() {
             onChange={(e) => setText(e.target.value)}
           />
 
-          <div
-            className="add"
+          <button
+            className={`add ${isUpdating ? "update" : ""}`}
             onClick={
               isUpdating
                 ? () =>
@@ -41,7 +41,7 @@ function App() {
             }
           >
             {isUpdating ? "Update" : "Add"}
-          </div>
+          </button>
         </div>
 
         <div className="list">
